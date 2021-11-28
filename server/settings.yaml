@@ -1,28 +1,18 @@
 # Default application settings, to run the application for local development.
 #
 # These settings are read in `app.configuration.py` and can be overridden by environmental variables,
-# thanks to `roconfiguration` package.
-# Refer to https://github.com/RobertoPrevato/roconfiguration for more information.
+# thanks to `essentials-configuration` package.
+# Refer to https://github.com/Neoteroi/essentials-configuration for more information.
 #
 # The ARM templates provided with the project template configure properly the application
 # settings, so nothing more needs to be done here.
 #
-app_name: "Venezia"
-
-# Note: the following settings are for a PostgreSQL Server running on the local server
-# TODO: provide an example for Azure Database
-postgres_db: "venezia"
-
-postgres_user: "postgres"
-
-postgres_password: "postgres"
-
-postgres_host: "localhost"
+app_name: "Demo"
 
 # TODO: add to ARM template
 db_connection_string: postgresql+asyncpg://postgres:postgres@localhost:5432/apidemo
 
-debug: true # if true, Jinja2 templates auto reloading is enabled
+debug: true
 
 show_error_details: true
 

@@ -17,4 +17,7 @@ class CountriesController(ApiController):
 
     @get("/")
     async def get_countries(self) -> List[Country]:
+        """
+        Gets the list of countries configured in the system.
+        """
         return await self.manager.get_countries()
