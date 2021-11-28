@@ -16,7 +16,7 @@ on:
         default: "true"
 
 env:
-  PROJECT_NAME: demoapi
+  PROJECT_NAME: trieste
   RG_LOCATION: westeurope
 
 defaults:

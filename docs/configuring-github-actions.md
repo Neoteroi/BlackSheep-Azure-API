@@ -112,18 +112,24 @@ SUBSCRIPTION_ID="3756d039-9ddf-4efc-9eec-11dec0d9ff59"
 az ad sp create-for-rbac \
    --name "demoapi-gh-dev-agent" \
    --role contributor \
-   --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RG
+   --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RG \
+   --sdk-auth
 ```
 
 The output of the command looks like the following:
 
 ```bash
 {
-  "appId": "*******************************",
-  "displayName": "demoapi-gh-dev-agent",
-  "name": "*******************************",
-  "password": "*******************************",
-  "tenant": "*******************************"
+  "clientId": "*******************************",
+  "clientSecret": "*******************************",
+  "subscriptionId": "*******************************",
+  "tenantId": "*******************************",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
 }
 ```
 

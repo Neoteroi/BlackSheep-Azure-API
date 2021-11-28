@@ -162,7 +162,6 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2019-06-01'
             'PUT'
             'OPTIONS'
             'HEAD'
-            'PATCH'
           ]
           maxAgeInSeconds: 300
           exposedHeaders: [
@@ -243,7 +242,7 @@ resource projectSiteConnectionStrings 'Microsoft.Web/sites/config@2015-08-01' = 
   properties: {
     PostgreSQLConnectionString: {
       value: 'Database=${dbName};Server=${databaseServer.properties.fullyQualifiedDomainName};User Id=${dbAdministratorLogin}@${dbServerFullName};Password=${dbAdministratorLoginPassword}'
-      type: 'PostgreSQL'
+      type: 'Custom'
     }
     CloudStorageConnectionString: {
       value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountFullName};AccountKey=${listKeys(storageAccountFullName, '2015-05-01-preview').key1}'
