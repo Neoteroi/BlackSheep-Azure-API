@@ -116,9 +116,6 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   sku: {
     name: storageAccountType
   }
-  identity: {
-    type: 'SystemAssigned'
-  }
   kind: 'StorageV2'
   properties: {
     networkAcls: {

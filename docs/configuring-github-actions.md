@@ -30,7 +30,7 @@ name, so for example a project name `example` will result in the creation of an
 app service at the URL: `https://dev-example.azurewebsites.net`, if this name
 is available.
 
-The name should be set in `./infrastructure/template.json`, editing the
+The name should be set in `./infrastructure/template.bicep`, editing the
 parameter named `projectName` under `parameters`.
 
 ```json
@@ -84,37 +84,46 @@ Azure account and selecting the desired subscription.
 If the chosen project name is `example`, it is recommended to use a resource
 group name such as `dev-example-rg` for the DEV environment.
 
+First, sign-in using the Azure CLI and select the target subscription:
+
 ```bash
 # login
 az login
 
 # select the desired subscription
 az account set --subscription "NAME"
+```
 
-SUBSCRIPTION_ID="your-subscription-id"
+Create the target resource group, in the desired location:
+
+```bash
+RG=dev-example-rg
+
+az group create --location "westeurope" --name $RG
+```
+
+Create credentials to automate deployments from GitHub Workflows:
+
+```bash
+SUBSCRIPTION_ID="3756d039-9ddf-4efc-9eec-11dec0d9ff59"
+# subscription id can be found using `az account show`
 
 # generate deployment credentials
 az ad sp create-for-rbac \
-   --name "example-dev-agent" \
+   --name "demoapi-gh-dev-agent" \
    --role contributor \
-   --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/dev-example-rg \
-   --sdk-auth
+   --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RG
 ```
 
 The output of the command looks like the following:
 
 ```bash
 {
-  "clientId": "*******************************",
-  "clientSecret": "*******************************",
-  "subscriptionId": "*******************************",
-  "tenantId": "*******************************",
-  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
-  "resourceManagerEndpointUrl": "https://management.azure.com/",
-  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
-  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
-  "galleryEndpointUrl": "https://gallery.azure.com/",
-  "managementEndpointUrl": "https://management.core.windows.net/"
+  "appId": "*******************************",
+  "displayName": "demoapi-gh-dev-agent",
+  "name": "*******************************",
+  "password": "*******************************",
+  "tenant": "*******************************"
 }
 ```
 
@@ -191,4 +200,3 @@ postgres+psycopg2://pgsqladmin@dev-examplepg:DATABASE_PASSWORD_HERE@dev-examplep
 Note that database name and admin user name are configured in the ARM template.
 
 ---
-Additionally, it is necessary to configure

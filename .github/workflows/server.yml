@@ -17,7 +17,7 @@ on:
       - "server/**"
 
 env:
-  PROJECT_NAME: venezia
+  PROJECT_NAME: demoapi
 
 jobs:
   build-app:

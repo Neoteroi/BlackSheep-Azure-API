@@ -58,6 +58,7 @@ for pushing changes and for build agents to pick up jobs).
 | Application Insights | Service used to collect telemetries such as server response times, failed requests, performance of dependencies, unhandled exceptions.                                                                  |
 | App Service          | This is the application service itself, where the application code is deployed.                                                                                                                         |
 | PostgreSQL           | Managed instance of Azure Database for PostgreSQL.                                                                                                                                                      |
+| Storage Account      | Service that, for example, can be used to store files (Blob Service), or NoSQL tabular data (Table Service).                                                                                            |
 
 ---
 

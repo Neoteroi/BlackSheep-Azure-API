@@ -16,7 +16,7 @@ on:
         default: "true"
 
 env:
-  PROJECT_NAME: venezia
+  PROJECT_NAME: demoapi
   RG_LOCATION: westeurope
 
 defaults:
@@ -53,7 +53,7 @@ jobs:
         with:
           subscriptionId: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.ENV_NAME }}-${{ env.PROJECT_NAME }}-rg
-          template: ./infrastructure/template.json
+          template: ./infrastructure/template.bicep
           parameters: ./infrastructure/parameters.${{ env.ENV_NAME }}.json projectName=${{ env.PROJECT_NAME }} dbAdministratorLoginPassword=${{ env.DB_PASS }}
         env:
           DB_PASS: ${{ secrets.DEV_DBSA_PASSWORD }}
