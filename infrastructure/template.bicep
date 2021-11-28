@@ -5,7 +5,7 @@ param appClientId string = '00000000-0000-0000-0000-000000000000'
 param tenantId string = '00000000-0000-0000-0000-000000000000'
 
 @minLength(2)
-param projectName string = 'venezia'
+param projectName string = 'demo'
 
 @allowed([
   'dev'
@@ -101,16 +101,12 @@ var appInsFullName = '${projectFullName}-appins'
 var dbName = projectName
 var dbServerFullName = '${projectFullName}pg'
 
-var firewallrules = [
+// database firewall rules: by default only traffic within Azure is configured;
+var dbFirewallRules = [
   {
     Name: 'AllowAzureServices'
     StartIpAddress: '0.0.0.0'
     EndIpAddress: '0.0.0.0'
-  }
-  {
-    Name: 'rule2'
-    StartIpAddress: '0.0.0.0'
-    EndIpAddress: '255.255.255.255'
   }
 ]
 
@@ -302,7 +298,7 @@ resource databaseServer 'Microsoft.DBforPostgreSQL/servers@2017-12-01' = {
 }
 
 @batchSize(1)
-resource databaseFirewallRule 'Microsoft.DBforPostgreSQL/servers/firewallrules@2017-12-01' = [for rule in firewallrules: {
+resource databaseFirewallRule 'Microsoft.DBforPostgreSQL/servers/firewallrules@2017-12-01' = [for rule in dbFirewallRules: {
   parent: databaseServer
   name: rule.Name
   properties: {
