@@ -1,0 +1,20 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../dev"
+        },
+        {
+            "path": "../infrastructure"
+        },
+        {
+            "path": "../docs"
+        },
+        {
+            "path": "../.github"
+        }
+    ],
+    "settings": {}
+}
