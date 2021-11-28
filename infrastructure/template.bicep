@@ -75,10 +75,10 @@ param databaseSkuName string = 'B_Gen5_1'
 
 @description('Azure database for PostgreSQL Sku Size')
 @allowed([
-  102400
-  51200
+  '102400'
+  '51200'
 ])
-param databaseSkuSizeMB int = 51200
+param databaseSkuSizeMB string = '51200'
 
 @description('Azure database for PostgreSQL pricing tier')
 @allowed([
@@ -202,7 +202,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   }
 }
 
-resource appInsName 'Microsoft.Insights/components@2014-04-01' = {
+resource appIns 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   name: appInsFullName
   location: resourceGroup().location
@@ -211,7 +211,7 @@ resource appInsName 'Microsoft.Insights/components@2014-04-01' = {
     displayName: 'AppInsightsComponentGlobal'
   }
   properties: {
-    ApplicationId: projectFullName
+    Application_Type: 'web'
   }
 }
 
@@ -231,7 +231,7 @@ resource projectSite 'Microsoft.Web/sites@2020-06-01' = {
   }
   dependsOn: [
     storageAccount
-    appInsName
+    appIns
   ]
 }
 
@@ -261,7 +261,7 @@ resource projectSiteAppSettings 'Microsoft.Web/sites/config@2015-08-01' = {
     auth__tenant_id: tenantId
     storage_account_name: storageAccountFullName
     storage_account_key: listKeys(storageAccountFullName, '2015-05-01-preview').key1
-    monitoring_key: appInsName.properties.InstrumentationKey
+    monitoring_key: appIns.properties.InstrumentationKey
     postgres_db: dbName
     postgres_user: '${dbAdministratorLogin}@${dbServerFullName}'
     postgres_password: dbAdministratorLoginPassword
@@ -280,7 +280,6 @@ resource databaseServer 'Microsoft.DBforPostgreSQL/servers@2017-12-01' = {
     version: postgresqlVersion
     administratorLogin: dbAdministratorLogin
     administratorLoginPassword: dbAdministratorLoginPassword
-    storageMB: databaseSkuSizeMB
     sslEnforcement: 'Enabled'
     minimalTlsVersion: 'TLS1_2'
   }
