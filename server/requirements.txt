@@ -1,3 +1,4 @@
+alembic
 asgiref==3.4.1
 asyncpg==0.25.0
 attrs==21.2.0
