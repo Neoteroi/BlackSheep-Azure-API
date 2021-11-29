@@ -18,9 +18,9 @@ from .services import configure_services
 def load_configuration() -> Configuration:
     env_name = os.environ.get("APP_ENV", "prod")
     builder = ConfigurationBuilder(
-        EnvironmentVariables("APP_"),
         YAMLFile("settings.yaml"),
         YAMLFile(f"settings.{env_name}.yaml", optional=True),
+        EnvironmentVariables("APP_"),
     )
     return builder.build()
 

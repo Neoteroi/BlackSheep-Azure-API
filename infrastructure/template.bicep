@@ -241,7 +241,7 @@ resource projectSiteConnectionStrings 'Microsoft.Web/sites/config@2015-08-01' = 
   location: location
   properties: {
     PostgreSQLConnectionString: {
-      value: 'Database=${dbName};Server=${databaseServer.properties.fullyQualifiedDomainName};User Id=${dbAdministratorLogin}@${dbServerFullName};Password=${dbAdministratorLoginPassword}'
+      value: 'postgresql+asyncpg://${dbAdministratorLogin}@${dbServerFullName}:${dbAdministratorLoginPassword}@${databaseServer.properties.fullyQualifiedDomainName}:5432/${projectName}'
       type: 'Custom'
     }
     CloudStorageConnectionString: {
@@ -256,6 +256,7 @@ resource projectSiteAppSettings 'Microsoft.Web/sites/config@2015-08-01' = {
   name: 'appsettings'
   location: location
   properties: {
+    APP_SHOW_ERROR_DETAILS: 'true'
     SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
     auth__client_id: appClientId
     auth__tenant_id: tenantId
@@ -266,6 +267,7 @@ resource projectSiteAppSettings 'Microsoft.Web/sites/config@2015-08-01' = {
     postgres_user: '${dbAdministratorLogin}@${dbServerFullName}'
     postgres_password: dbAdministratorLoginPassword
     postgres_host: databaseServer.properties.fullyQualifiedDomainName
+    APP_DB_CONNECTION_STRING: 'postgresql+asyncpg://${dbAdministratorLogin}@${dbServerFullName}:${dbAdministratorLoginPassword}@${databaseServer.properties.fullyQualifiedDomainName}:5432/${projectName}'
   }
 }
 
