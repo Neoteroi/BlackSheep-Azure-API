@@ -61,7 +61,7 @@ jobs:
 
       - name: Archive Release
         run: |
-          zip -T -r ../release.zip . -x "venv/*" "__pycache__/*" "**/__pycache__/*" ".mypy_cache/*" "pytest_cache/*" "deps/*" @
+          zip -T -r ../release.zip . -x "venv/*" "__pycache__/*" "**/__pycache__/*" ".mypy_cache/*" ".pytest_cache/*" "deps/*" @
 
       - name: Upload distribution package
         uses: actions/upload-artifact@master
@@ -106,7 +106,7 @@ jobs:
         run: |
           ENV=dev
           DB_NAME="$ENV-$PROJECT_NAME"
-          DB_MIGCONNSTRING="postgres+psycopg2://pgsqladmin@$DB_NAME:$DEV_DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
+          DB_MIGCONNSTRING="postgresql+psycopg2://pgsqladmin@$DB_NAME:$DEV_DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
         env:
           DEV_DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
