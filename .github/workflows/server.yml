@@ -14,6 +14,7 @@ on:
     branches:
       - "*"
     paths:
+      - ".github/workflows/server.yml"
       - "server/**"
 
 env:
@@ -105,7 +106,7 @@ jobs:
         working-directory: server
         run: |
           ENV=dev
-          DB_NAME="$ENV-$PROJECT_NAME"
+          DB_NAME="$ENV-$PROJECT_NAMEpg"
           DB_MIGCONNSTRING="postgresql+psycopg2://pgsqladmin@$DB_NAME:$DEV_DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
         env:
           DEV_DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
