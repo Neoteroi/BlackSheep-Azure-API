@@ -104,9 +104,11 @@ jobs:
       - name: Run DB migrations
         working-directory: server
         run: |
-          alembic upgrade head
+          ENV=dev
+          DB_NAME="$ENV-$PROJECT_NAME"
+          DB_MIGCONNSTRING="postgres+psycopg2://pgsqladmin@$DB_NAME:$DEV_DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
         env:
-          DB_MIGCONNSTRING: ${{ secrets.DEV_DB_MIGCONNSTRING }}
+          DEV_DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
       - name: Download a distribution artifact
         uses: actions/download-artifact@v2
