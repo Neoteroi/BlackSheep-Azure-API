@@ -25,7 +25,7 @@ defaults:
 
 jobs:
   deploy-dev:
-    uses: ./.github/workflows/infrastructure-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
     with:
       PROJECT_NAME: ${{ env.PROJECT_NAME }}
       ENV_NAME: dev
@@ -35,7 +35,7 @@ jobs:
       DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
   deploy-test:
-    uses: ./.github/workflows/infrastructure-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
     with:
       PROJECT_NAME: ${{ env.PROJECT_NAME }}
       ENV_NAME: test
