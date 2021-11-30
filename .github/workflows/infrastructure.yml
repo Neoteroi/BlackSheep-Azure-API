@@ -25,37 +25,21 @@ defaults:
 
 jobs:
   deploy-dev:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.deploy_to_dev }} == 'true' || github.ref == 'refs/heads/dev'
-    env:
+    uses: ./.github/workflows/infrastructure-env.yml@main
+    with:
+      PROJECT_NAME: ${{ env.PROJECT_NAME }}
       ENV_NAME: dev
-    steps:
-      - uses: actions/checkout@main
+      AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
+      DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.DEV_AZURE_CREDENTIALS }}
-
-      - uses: Azure/CLI@v1
-        with:
-          inlineScript: |
-            #!/bin/bash
-            RG="${{ env.ENV_NAME }}-${{ env.PROJECT_NAME }}-rg"
-            if $(az group exists --name $RG) ; then
-              echo "Azure resource group already exists, skipping creation..."
-            else
-              az group create --name $RG --location ${{ env.RG_LOCATION }}
-              echo "Azure resource group created"
-            fi
-
-      - name: Run ARM deploy
-        uses: azure/arm-deploy@v1
-        with:
-          subscriptionId: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
-          resourceGroupName: ${{ env.ENV_NAME }}-${{ env.PROJECT_NAME }}-rg
-          template: ./infrastructure/template.bicep
-          parameters: ./infrastructure/parameters.${{ env.ENV_NAME }}.json projectName=${{ env.PROJECT_NAME }} dbAdministratorLoginPassword=${{ env.DB_PASS }}
-        env:
-          DB_PASS: ${{ secrets.DEV_DBSA_PASSWORD }}
-        # continue on error, because of this issue: https://github.com/Azure/arm-deploy/issues/48
-        continue-on-error: true
+  deploy-test:
+    uses: ./.github/workflows/infrastructure-env.yml@main
+    with:
+      PROJECT_NAME: ${{ env.PROJECT_NAME }}
+      ENV_NAME: test
+      AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.TEST_AZURE_CREDENTIALS }}
+      DBSA_PASSWORD: ${{ secrets.TEST_DBSA_PASSWORD }}

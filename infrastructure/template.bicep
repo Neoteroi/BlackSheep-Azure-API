@@ -262,12 +262,12 @@ resource projectSiteAppSettings 'Microsoft.Web/sites/config@2015-08-01' = {
     auth__tenant_id: tenantId
     storage_account_name: storageAccountFullName
     storage_account_key: listKeys(storageAccountFullName, '2015-05-01-preview').key1
-    monitoring_key: appIns.properties.InstrumentationKey
     postgres_db: dbName
     postgres_user: '${dbAdministratorLogin}@${dbServerFullName}'
     postgres_password: dbAdministratorLoginPassword
     postgres_host: databaseServer.properties.fullyQualifiedDomainName
     APP_DB_CONNECTION_STRING: 'postgresql+asyncpg://${dbAdministratorLogin}@${dbServerFullName}:${dbAdministratorLoginPassword}@${databaseServer.properties.fullyQualifiedDomainName}:5432/${projectName}'
+    APP_MONITORING_KEY: appIns.properties.InstrumentationKey
   }
 }
 
