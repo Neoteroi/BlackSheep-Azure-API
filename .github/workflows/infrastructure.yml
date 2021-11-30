@@ -32,7 +32,7 @@ jobs:
     if: ${{ github.event.inputs.deploy_to_dev }} == 'true' || github.ref == 'refs/heads/dev'
     uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
     with:
-      PROJECT_NAME: ${{ env.PROJECT_NAME }}
+      PROJECT_NAME: trieste
       ENV_NAME: dev
       AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
     secrets:
@@ -43,7 +43,7 @@ jobs:
     if: ${{ github.event.inputs.deploy_to_test }} == 'true' || github.ref == 'refs/heads/test'
     uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
     with:
-      PROJECT_NAME: ${{ env.PROJECT_NAME }}
+      PROJECT_NAME: trieste
       ENV_NAME: test
       AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
     secrets:
