@@ -34,7 +34,7 @@ jobs:
     with:
       PROJECT_NAME: trieste
       ENV_NAME: dev
-      AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
+      AZURE_SUBSCRIPTION: 3756d039-9ddf-4efc-9eec-11dec0d9ff59
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
       DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
@@ -45,7 +45,7 @@ jobs:
     with:
       PROJECT_NAME: trieste
       ENV_NAME: test
-      AZURE_SUBSCRIPTION: ${{ secrets.DEV_AZURE_SUBSCRIPTION }}
+      AZURE_SUBSCRIPTION: 3756d039-9ddf-4efc-9eec-11dec0d9ff59
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.TEST_AZURE_CREDENTIALS }}
       DBSA_PASSWORD: ${{ secrets.TEST_DBSA_PASSWORD }}
