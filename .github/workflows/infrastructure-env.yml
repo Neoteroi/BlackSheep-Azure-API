@@ -47,5 +47,3 @@ jobs:
           parameters: ./infrastructure/parameters.${{ inputs.ENV_NAME }}.json projectName=${{ inputs.PROJECT_NAME }} dbAdministratorLoginPassword=${{ env.DB_PASS }}
         env:
           DB_PASS: ${{ secrets.DBSA_PASSWORD }}
-        # continue on error, because of this issue: https://github.com/Azure/arm-deploy/issues/48
-        continue-on-error: true
