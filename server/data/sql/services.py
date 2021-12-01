@@ -1,4 +1,3 @@
-from blacksheepsqlalchemy import use_sqlalchemy
 from core.events import ServicesRegistrationContext
 from domain.countries import CountriesDataProvider
 from opencensus.trace import config_integration

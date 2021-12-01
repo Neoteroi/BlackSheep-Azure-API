@@ -70,58 +70,23 @@ jobs:
           name: app-package
           path: release.zip
 
-  publish-server-dev:
-    runs-on: ubuntu-18.04
+  deploy-dev:
     needs: build-app
-    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
-    steps:
-      - name: Use Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
+    if: github.ref == 'refs/heads/dev'
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@main
+    with:
+      PROJECT_NAME: trieste
+      ENV_NAME: dev
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.DEV_AZURE_CREDENTIALS }}
+      DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 9
-          submodules: false
-
-      - uses: actions/cache@v1
-        id: depcache
-        with:
-          path: deps
-          key: requirements-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-
-      - name: Download dependencies
-        if: steps.depcache.outputs.cache-hit != 'true'
-        working-directory: server
-        run: |
-          pip download --dest=deps -r requirements.txt
-
-      - name: Install dependencies
-        working-directory: server
-        run: |
-          pip install -U --no-index --find-links=deps deps/*
-
-      - name: Run DB migrations
-        working-directory: server
-        run: |
-          ENV=dev
-          DB_NAME="$ENV-${PROJECT_NAME}pg"
-          DB_MIGCONNSTRING="postgresql+psycopg2://pgsqladmin@$DB_NAME:$DEV_DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
-        env:
-          DEV_DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
-
-      - name: Download a distribution artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: app-package
-
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.DEV_AZURE_CREDENTIALS }}
-
-      - uses: azure/webapps-deploy@v2
-        with:
-          app-name: dev-${{ env.PROJECT_NAME }}
-          package: release.zip
-          startup-command: "gunicorn --bind=0.0.0.0 --workers=4 -k uvicorn.workers.UvicornWorker server:app"
+  deploy-test:
+    if: github.ref == 'refs/heads/test'
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@main
+    with:
+      PROJECT_NAME: trieste
+      ENV_NAME: test
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.TEST_AZURE_CREDENTIALS }}
+      DBSA_PASSWORD: ${{ secrets.TEST_DBSA_PASSWORD }}
