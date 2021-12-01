@@ -82,6 +82,7 @@ jobs:
       DBSA_PASSWORD: ${{ secrets.DEV_DBSA_PASSWORD }}
 
   deploy-test:
+    needs: build-app
     if: github.ref == 'refs/heads/test'
     uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@main
     with:
