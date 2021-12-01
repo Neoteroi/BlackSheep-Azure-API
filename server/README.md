@@ -14,6 +14,7 @@ Requirements and recommended tools:
 
 * Python 3.8
 * VS Code
+* Azure CLI
 
 ## Structure
 
