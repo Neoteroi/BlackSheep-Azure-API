@@ -51,6 +51,7 @@ jobs:
           DB_NAME="$ENV-${PROJECT_NAME}pg"
           DB_MIGCONNSTRING="postgresql+psycopg2://pgsqladmin@$DB_NAME:$DBSA_PASSWORD@$DB_NAME.postgres.database.azure.com:5432/$PROJECT_NAME" alembic upgrade head
         env:
+          PROJECT_NAME: ${{ inputs.PROJECT_NAME }}
           DBSA_PASSWORD: ${{ secrets.DBSA_PASSWORD }}
 
       - name: Download a distribution artifact

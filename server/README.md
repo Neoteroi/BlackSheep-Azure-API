@@ -10,9 +10,10 @@ and GitHub Workflows ready to use, to automate the provisioning of required
 services and the deployments of the application.
 
 ## Getting started
-Requirements:
+Requirements and recommended tools:
 
 * Python 3.8
+* VS Code
 
 ## Structure
 
