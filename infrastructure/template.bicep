@@ -94,6 +94,16 @@ param databaseSkuTier string = 'Basic'
 ])
 param postgresqlVersion string = '11'
 
+@description('Monitoring alerts receipients')
+param alertEmails array = [
+  /*
+    {
+      name: 'owner'
+      address: 'example@example.com'
+    }
+  */
+]
+
 var projectFullName = '${environment}-${projectName}'
 var appServicePlanFullName = '${environment}-app-service-${projectName}'
 var storageAccountFullName = replace('${projectFullName}stacc', '-', '')
@@ -212,6 +222,31 @@ resource appIns 'Microsoft.Insights/components@2020-02-02' = {
   }
   properties: {
     Application_Type: 'web'
+  }
+}
+
+resource alertsActionGroup 'microsoft.insights/actionGroups@2019-06-01' = {
+  name: 'alerts action group'
+  location: 'global'
+  properties: {
+    groupShortName: 'alerts group'
+    enabled: true
+    emailReceivers: [for item in alertEmails: {
+      name: 'send-email-to-${item.name}-EmailAction'
+      emailAddress: item.address
+      useCommonAlertSchema: false
+    }]
+  }
+}
+
+module alertsModule 'alerts.bicep' = {
+  name: 'deployAlerts'
+  dependsOn: [
+    appIns
+  ]
+  params: {
+    projectName: projectName
+    environment: environment
   }
 }
 
