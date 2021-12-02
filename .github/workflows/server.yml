@@ -73,7 +73,7 @@ jobs:
   deploy-dev:
     needs: build-app
     if: github.ref == 'refs/heads/dev'
-    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@dev
     with:
       PROJECT_NAME: trieste
       ENV_NAME: dev
@@ -84,7 +84,7 @@ jobs:
   deploy-test:
     needs: build-app
     if: github.ref == 'refs/heads/test'
-    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@dev
     with:
       PROJECT_NAME: trieste
       ENV_NAME: test

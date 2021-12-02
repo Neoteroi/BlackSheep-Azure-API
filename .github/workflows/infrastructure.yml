@@ -23,7 +23,7 @@ defaults:
 jobs:
   deploy-dev:
     if: github.event.inputs.deploy_to_dev == '1' || github.ref == 'refs/heads/dev'
-    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@dev
     with:
       PROJECT_NAME: trieste
       ENV_NAME: dev
@@ -34,7 +34,7 @@ jobs:
 
   deploy-test:
     if: github.event.inputs.deploy_to_test == '1' || github.ref == 'refs/heads/test'
-    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@main
+    uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/infrastructure-env.yml@dev
     with:
       PROJECT_NAME: trieste
       ENV_NAME: test
