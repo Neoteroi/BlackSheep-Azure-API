@@ -1,8 +1,6 @@
 @description('Project name')
 param projectName string
 
-@description('Naming convention')
-param regionCode string = 'euw'
 param environment string = 'dev'
 param resourcesInfo object = {
   appinsights: {
@@ -108,8 +106,7 @@ param alerts array = [
   }
 ]
 
-var name = '${projectName}-${environment}'
-var nameWithLocation = '${name}-${regionCode}'
+var name = '${environment}-${projectName}'
 var actionGroupId = resourceId('microsoft.insights/actionGroups', actionGroupName)
 
 resource alerts_name 'Microsoft.Insights/metricAlerts@2018-03-01' = [for item in alerts: {
@@ -121,7 +118,7 @@ resource alerts_name 'Microsoft.Insights/metricAlerts@2018-03-01' = [for item in
     severity: item.severity
     description: item.description
     scopes: [
-      resourceId(resourcesInfo[item.resource].type, '${nameWithLocation}-${resourcesInfo[item.resource].suffix}')
+      resourceId(resourcesInfo[item.resource].type, '${name}-${resourcesInfo[item.resource].suffix}')
     ]
     evaluationFrequency: item.evaluationFrequency
     windowSize: item.windowSize
