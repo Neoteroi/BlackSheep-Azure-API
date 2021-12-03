@@ -1,7 +1,6 @@
-@description('Project name')
-param projectName string
-
+param actionGroupName string = 'alerts action group'
 param environment string = 'dev'
+param projectName string
 param resourcesInfo object = {
   appinsights: {
     type: 'microsoft.insights/components'
@@ -16,7 +15,6 @@ param resourcesInfo object = {
     suffix: 'server'
   }
 }
-param actionGroupName string = 'Send email action group'
 
 @description('Alert metrics.')
 param alerts array = [

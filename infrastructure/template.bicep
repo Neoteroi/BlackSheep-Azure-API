@@ -110,6 +110,7 @@ var storageAccountFullName = replace('${projectFullName}stacc', '-', '')
 var appInsFullName = '${projectFullName}-appins'
 var dbName = projectName
 var dbServerFullName = '${projectFullName}pg'
+var actionGroupName = 'alerts action group'
 
 // database firewall rules: by default only traffic within Azure is configured;
 var dbFirewallRules = [
@@ -226,7 +227,7 @@ resource appIns 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 resource alertsActionGroup 'microsoft.insights/actionGroups@2019-06-01' = {
-  name: 'alerts action group'
+  name: actionGroupName
   location: 'global'
   properties: {
     groupShortName: 'alerts group'
@@ -247,6 +248,7 @@ module alertsModule 'alerts.bicep' = {
   params: {
     projectName: projectName
     environment: environment
+    actionGroupName: actionGroupName
   }
 }
 
