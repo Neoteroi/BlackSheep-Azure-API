@@ -105,7 +105,7 @@ param alertEmails array = [
 ]
 
 var projectFullName = '${environment}-${projectName}'
-var appServicePlanFullName = '${environment}-app-service-${projectName}'
+var appServicePlanFullName = '${environment}-${projectName}-server'
 var storageAccountFullName = replace('${projectFullName}stacc', '-', '')
 var appInsFullName = '${projectFullName}-appins'
 var dbName = projectName

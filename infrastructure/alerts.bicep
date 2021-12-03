@@ -13,7 +13,7 @@ param resourcesInfo object = {
   }
   serverfarm: {
     type: 'Microsoft.Web/serverfarms'
-    suffix: 'plan'
+    suffix: 'server'
   }
 }
 param actionGroupName string = 'Send email action group'
