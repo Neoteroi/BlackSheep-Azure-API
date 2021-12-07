@@ -67,8 +67,8 @@ environment:
 | ---------------------- | --------------------------------------------------------------------------- |
 | DEV_AZURE_SUBSCRIPTION | Azure subscription ID for the DEV environment.                              |
 | DEV_AZURE_CREDENTIALS  | Deployment credentials scoped for the DEV resource group.                   |
-| DEV_DB_MIGCONNSTRING   | Connection string used for database migrations.                             |
 | DEV_DBSA_PASSWORD      | DBA password used to create services in Azure (used in the ARM deployment). |
+| DEV_DBAPP_PASSWORD     | DB password used by the user of the web API, with lower privileges.         |
 
 #### Generating deployment credentials
 
@@ -106,11 +106,11 @@ Create credentials to automate deployments from GitHub Workflows:
 
 ```bash
 SUBSCRIPTION_ID="3756d039-9ddf-4efc-9eec-11dec0d9ff59"
-# subscription id can be found using `az account show`
+# Note: subscription id can be found using `az account show`
 
 # generate deployment credentials
 az ad sp create-for-rbac \
-   --name "demoapi-gh-dev-agent" \
+   --name "gh-agent" \
    --role contributor \
    --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RG \
    --sdk-auth
@@ -188,13 +188,6 @@ the DEVELOPMENT environment, to work on the database structure using migrations
 
 #### Configure database secrets
 
-Migrations need to run in the context of an admin user (able to create and
-delete tables), therefore configure a secret in GitHub named
-`DEV_DB_MIGCONNSTRING`, containing a connection string to the database. This
-secret will be used to run migrations, which will run before deploying updates
-of the application server. Storing this value in `alembic.ini` would be a
-mistake since it includes a password.
-
 Database migrations are run using
 [psycopg2](https://pypi.org/project/psycopg2/) driver, therefore the connection
 string to the database server running in Azure looks like the following:
@@ -202,7 +195,3 @@ string to the database server running in Azure looks like the following:
 ```
 postgres+psycopg2://pgsqladmin@dev-examplepg:DATABASE_PASSWORD_HERE@dev-examplepg.postgres.database.azure.com:5432/example
 ```
-
-Note that database name and admin user name are configured in the ARM template.
-
----
