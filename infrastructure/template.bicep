@@ -341,3 +341,12 @@ resource databaseFirewallRule 'Microsoft.DBforPostgreSQL/servers/firewallrules@2
     endIpAddress: rule.EndIpAddress
   }
 }]
+
+resource database 'Microsoft.DBforPostgreSQL/servers/databases@2017-12-01' = {
+  parent: databaseServer
+  name: dbName
+  properties: {
+    charset: 'utf8'
+    collation: 'English_United States.1252'
+  }
+}
