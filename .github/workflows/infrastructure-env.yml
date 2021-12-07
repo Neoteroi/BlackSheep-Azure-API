@@ -51,11 +51,6 @@ jobs:
           DB_PASS: ${{ secrets.DBSA_PASSWORD }}
           DB_API_PASS: ${{ secrets.DBAPP_PASSWORD }}
 
-      - name: Install PostgreSQL client
-        run: |
-          apt-get update
-          apt-get install --yes postgresql-client
-
       - name: Configure the application user
         run: |
           # create a temporary file that will include the app password
