@@ -7,8 +7,9 @@ on:
     branches:
       - dev
       - test
-      - main
+      - prod
     paths:
+      - ".github/workflows/server.yml"
       - "server/**"
   pull_request:
     branches:
@@ -72,7 +73,7 @@ jobs:
 
   deploy-dev:
     needs: build-app
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' && github.event_name != 'pull_request'
     uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@dev
     with:
       PROJECT_NAME: trieste
@@ -83,7 +84,7 @@ jobs:
 
   deploy-test:
     needs: build-app
-    if: github.ref == 'refs/heads/test'
+    if: github.ref == 'refs/heads/test' && github.event_name == 'release'
     uses: Neoteroi/BlackSheep-Azure-API/.github/workflows/server-env.yml@dev
     with:
       PROJECT_NAME: trieste
