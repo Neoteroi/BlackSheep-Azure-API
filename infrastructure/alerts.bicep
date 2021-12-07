@@ -8,7 +8,7 @@ param resourcesInfo object = {
   }
   webapp: {
     type: 'Microsoft.Web/sites'
-    suffix: 'webapp'
+    suffix: ''
   }
   serverfarm: {
     type: 'Microsoft.Web/serverfarms'
