@@ -30,16 +30,8 @@ name, so for example a project name `example` will result in the creation of an
 app service at the URL: `https://dev-example.azurewebsites.net`, if this name
 is available.
 
-The name should be set in `./infrastructure/template.bicep`, editing the
-parameter named `projectName` under `parameters`.
-
-```json
-    "projectName": {
-      "type": "string",
-      "minLength": 2,
-      "defaultValue": "venezia"
-    },
-```
+The name can be set as default in `./infrastructure/template.bicep`, editing the
+parameter named `projectName`, otherwise configured as an input parameter.
 
 ### Configuring GitHub Secrets
 
@@ -50,6 +42,8 @@ GitHub, in detail:
   resource group in your subscription
 * a database admin password, used by ARM templates deployments when creating the
   instance of PostgreSQL Server in Azure
+* a database password for the application user, having lower privileges (this
+  is configured in the CD workflow)
 * a database connection string used by the application server CD pipeline, to
   apply database migrations
 
@@ -81,10 +75,16 @@ configure them in GitHub secrets:
 To generate deployment credentials, use the Azure CLI after signing-in to your
 Azure account and selecting the desired subscription.
 
-If the chosen project name is `example`, it is recommended to use a resource
-group name such as `dev-example-rg` for the DEV environment.
+Read this documentation as a reference: [https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions).
+Note that the credentials for the deployments can be scoped over a whole subscription
+(this can work when different subscriptions are used for the production environment
+and the non-production environments).
 
-First, sign-in using the Azure CLI and select the target subscription:
+If the chosen project name is `example`, use a resource group name such as
+`dev-example-rg` for the DEV environment. This name is then used by the provided
+templates.
+
+For example, sign-in using the Azure CLI and select the target subscription:
 
 ```bash
 # login
@@ -142,7 +142,7 @@ secret such as:
 
 * _DEV_AZURE_CREDENTIALS_ --> the name must match what is used in `.github/workflows/infrastructure.yml`
 
-#### Define a database password
+#### Define database passwords
 
 Choose, or generate, a database password for the DEV environment.
 
@@ -185,13 +185,3 @@ the DEVELOPMENT environment, to work on the database structure using migrations
 (described later).
 
 ---
-
-#### Configure database secrets
-
-Database migrations are run using
-[psycopg2](https://pypi.org/project/psycopg2/) driver, therefore the connection
-string to the database server running in Azure looks like the following:
-
-```
-postgres+psycopg2://pgsqladmin@dev-examplepg:DATABASE_PASSWORD_HERE@dev-examplepg.postgres.database.azure.com:5432/example
-```
